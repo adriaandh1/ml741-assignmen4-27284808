@@ -1,0 +1,35 @@
+\section{Discussion}
+
+Useful feature organisation did not necessarily translate into reliable attack prediction. The discussion considers representation, mapping and class-specific effects before the supervised comparison and study limitations.
+
+\subsection{Representation and Predictive Utility}
+
+For the first research question, larger maps reduced contextual distance but also lowered occupancy and weakened local adjacency preservation, exposing a capacity trade-off. Similar training and held-out diagnostics supported geometric transfer within the supplied extract, although geometric transfer alone did not establish class separation.
+
+For the second research question, the SOM and codebook clustering described feature structure, while training-count mapping made the complete classifier partly supervised. Conflicting targets for identical inputs also constrained deterministic separation independently of clustering, allowing useful geometric organisation to coexist with poor minority-class precision.
+
+At fixed correction strength, finer codebook partitions improved class prediction while producing more singleton clusters and lower silhouette. The opposing trends reflected different objectives, since silhouette measured compactness and separation whereas macro $F_1$ evaluated mapped-class decisions. The experiment did not establish fragmentation as the cause of the predictive gain.
+
+Purity favoured subdivision on assessment-fold models, but falling NMI and ARI showed that structural measures did not provide interchangeable judgements of predictive utility. Comparing 150 and 400 clusters at fixed $\alpha=0.5$ isolated granularity more closely than comparing 40 and 400 clusters, where both granularity and correction strength changed.
+
+\subsection{Imbalance and Class-Specific Effects}
+
+Full correction divided local class counts by global training frequencies, giving rare classes a greater relative advantage than partial correction. Weak local counts for rare classes consequently competed with much larger common-class counts, consistent with the observed thousands of rare-class false positives. Partial correction reduced the advantage, but the reduction also sacrificed recall.
+
+Rarity alone did not account for the class outcomes, as Shellcode benefited from finer partitions while Worms retained weak precision and recall. Backdoor remained difficult, Analysis changed modestly and Generic retained high class $F_1$. The seven-case development Worms sample introduced uncertainty, but weak recall persisted on the larger assessment sample.
+
+For the third research question, the classification tree achieved the highest macro $F_1$ and balanced accuracy, whereas kNN achieved the highest accuracy and weighted $F_1$. Training labels directly informed tree boundaries and neighbour votes, while SOM geometry remained label-free. However, preprocessing and tuning also differed between methods, preventing the comparison from isolating representation learning from the remaining pipeline.
+
+For the fourth research question, saved representations allowed inexpensive downstream sensitivity analysis. Training 25 assessment SOMs took approximately 103 minutes, compared with approximately 167 seconds for exploratory assessment, including analysis and bootstrap. Reusing the maps avoided further SOM, preprocessing, BMU or baseline fitting.
+
+\subsection{Limitations and Experimental Status}
+
+The post-hoc studies followed original assessment inspection and repeatedly reused validation, so later candidate freezing did not remove the assessment-informed research design. Bootstrap intervals described resampling of observed geometry groups conditional on fixed procedures, excluding selection uncertainty and transfer to another acquisition environment.
+
+The exploratory search ended at the predeclared 400-cluster boundary without establishing either a plateau or global optimality, and no further development followed exploratory assessment. Seed variation measured initialisation sensitivity on fixed partitions rather than replication on independent data.
+
+Geometry-group isolation prevented identical inputs from crossing folds but did not provide temporal, host or deployment separation, leaving possible dependencies from near-duplicate traffic and unrecorded acquisition structure. Unknown categories also shared a zero block, while training-only vocabularies produced 190--192 assessment coordinates compared with 150 during development. Different vocabularies consequently limited direct comparison of raw QE between the settings.
+
+No assessment prediction or performance informed confirmatory selection, although an inherited integrity test parsed full-source labels before repair of the strict gate. The parsing produced no assessment metric or selection effect, distinguishing source-label reading from performance-guided selection.
+
+The conclusions remained specific to the supplied extract and taxonomy, and higher macro $F_1$ did not establish acceptable false-positive rates for deployment.

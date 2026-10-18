@@ -1,0 +1,7 @@
+data_path: data/networkTraffic.csv
+metadata_path: data/features.csv
+results_dir: runs
+validation_seed: 47411
+smoke_seed: 47412
+smoke_groups_per_class: 30
+candidates: [standard, log_standard]

@@ -1,0 +1,101 @@
+{
+  "inputs": {
+    "results/audit/dataset_summary.json": "07f2d270d3c50a05935afdf880e447ee71f2eefdeae536729edaf21492361aaf",
+    "results/splits/partition_manifest.json": "07f72449468e7a3c81b661f99cb30f6bf0c16af0070badd9d6c8e8d77e5b8c91",
+    "results/audit/class_distribution.csv": "7a3df5a8dbe837852f391ae9e27e6b62dc8630be2dbbe39295518423dc286628",
+    "results/som-v3/sweep_summary.csv": "a0896bbf8430f44014c3813315ea8a699e5e5a5b4772cc555f30788eb9135732",
+    "results/exploratory/chunk4_5b/combined_validation_summary.csv": "c77f93de11e2aa69effca9ec5eea671aa41493717c4149531e5831d487db0635",
+    "results/clustering/validation_summary.csv": "e6b6203cb873b2d7e56d7036f8ab4fc881b9ab3c6903ad85d4df12d649d05581",
+    "results/exploratory/chunk4_5b/cluster_diagnostics.csv": "8454bef791dc2aa77434ceb1c2de4b75734c505774aeb44eafe2e817ca630974",
+    "results/exploratory/chunk4_6/nested_summary.csv": "e734c65581a40c544dbb6e6a6a8f3b52e2ce0795b3dd7a8038f6d060c850648d",
+    "results/exploratory/chunk4_6/per_class_summary.csv": "ea670769cdb05394234be2c46ce69ee33384ee84a9c498dbdaf19736c0d3019c",
+    "results/exploratory/chunk4_6/bootstrap_intervals.csv": "3c4c9ca88add2bcebbda2b363580c0cffdce460087d4738d064f0461da4a573f",
+    "results/assessment/som_diagnostics.csv": "3bcf0fc08b684d30ffeceb98f7793ebf7278223a846d4d389f1e2931851a95a5",
+    "results/exploratory/chunk4_6/fragmentation_summary.csv": "288fc74f065fc8d95469f5b5919a21433b8d43c20b6307429c2b3cc41ef330ed",
+    "results/exploratory/chunk4_6/structural_metrics.csv": "a9fe8550cfb4de9740122bb3117e93d9d60fbdf9fda9665df8e507b2c311b40b",
+    "results/exploratory/chunk4_6/development_assessment_transfer.csv": "d3cf9480e28ce2f1dd959403dac38876331bc03b7c698d7922da5ba81f90f5a0",
+    "results/assessment/runtimes.csv": "0945b3130c6ec1bc4a4f806de9231dfa5fe0417645fd0dd0d1bd925e95e36b60",
+    "results/assessment/late_convergence.csv": "c152b784ab8f9848e74d35186d222078d4f472920f0c62fcb0b19f0991944e2b",
+    "results/exploratory/chunk4_5b/combined_per_class_summary.csv": "ece0a5729ecdc3c736ce1d135afa847a04c58b7c2542a4567d8e79c406d631be",
+    "results/exploratory/chunk4_6/execution.json": "f9d53b2d9aac1a69f32d5ba910552f03542defe1ffab3c44d38fc112931a4e66",
+    "results/exploratory/chunk4_6/analysis.json": "b8a82235a782ef7d01156d1b78171298c82401d867720bb631c4f21b41154994",
+    "reference/selected_configurations.json": "d58acc0c9e02687c44c5222542eedbc33651409124feac24d3ede5a8b7476ed4",
+    "results/som-v3/runs/v3-log_standard-32x32-s47425/codebook.npz": "60ab107a5f482fab9df932b1015796d48ef39a0a9b8adbe6822a3c898a7fa35c",
+    "results/som-v3/runs/v3-log_standard-32x32-s47425/assignments.npz": "7dc62775fc139e51e72b8d34b4c688fcba118a9828fc015d2078ff2d23cdbf66",
+    "results/preprocessing/log_standard.json": "0f6a3c4cae7930aa35405f6641811a47636946d5b0468afe96fb515e0fcc1735"
+  },
+  "label_order": {
+    "0": "Normal",
+    "1": "Reconnaissance",
+    "2": "Backdoor",
+    "3": "DoS",
+    "4": "Exploits",
+    "5": "Analysis",
+    "6": "Fuzzers",
+    "7": "Worms",
+    "8": "Shellcode",
+    "9": "Generic"
+  },
+  "display_som_seed": 47425,
+  "display_clustering_seed_reference": 47432,
+  "component_features": [
+    "dur",
+    "sbytes"
+  ],
+  "writes": "report/generated only",
+  "fits": 0,
+  "prediction_computations": 0,
+  "presentation": {
+    "iteration": 2,
+    "representation_colours": {
+      "standard": "#0072B2",
+      "log_standard": "#D55E00"
+    },
+    "procedure_colours": {
+      "k40": "#0072B2",
+      "k150": "#D55E00",
+      "k400": "#CC79A7",
+      "knn": "#009E73",
+      "tree": "#333333"
+    },
+    "nominal_text_points": 10,
+    "column_width_inches": 3.486,
+    "text_width_inches": 7.16,
+    "geometry_maps": [
+      "cividis",
+      "viridis",
+      "RdBu_r centred at zero"
+    ],
+    "sensitivity_map": "cividis with luminance-based annotation contrast",
+    "redundancy": "markers and line styles; numerical heatmap annotations"
+  },
+  "assets": {
+    "sensitivity_values.csv": "c77f93de11e2aa69effca9ec5eea671aa41493717c4149531e5831d487db0635",
+    "fragmentation.png": "67a8794b45bf66c319c4974ff827e81ab4c5a2dd3953e196a15f4acb07def6e0",
+    "class_values.csv": "ea670769cdb05394234be2c46ce69ee33384ee84a9c498dbdaf19736c0d3019c",
+    "rare_table.tex": "519597c6769f362d828cdc5515135ec11c01e5ea2496980129863466773272bc",
+    "claims.tex": "776e8bd32a2b585706f42365e0dc5b8b2b7d40daf7366e3f3fba7a31e2d27b8e",
+    "som_table.tex": "06466852b0897e8095e150e2f64db07d51b719af3337d0a9c22a449c2e699ab3",
+    "representation.png": "efd76910ea095971d5ea067268cff5c31045f1ba461acca25db152468ff4b724",
+    "transfer_values.csv": "d3cf9480e28ce2f1dd959403dac38876331bc03b7c698d7922da5ba81f90f5a0",
+    "transfer.png": "acead1f9d34e6461ea871e6b096565443614f983394ed8ad2f11325b7cf2313a",
+    "geometry_values.csv": "3bcf0fc08b684d30ffeceb98f7793ebf7278223a846d4d389f1e2931851a95a5",
+    "bootstrap_values.csv": "3c4c9ca88add2bcebbda2b363580c0cffdce460087d4738d064f0461da4a573f",
+    "sensitivity.png": "9d2dc7d96c55a81feef429ea215c9dee1a373e192af8375cce68253c41aa7e8f",
+    "representation.pdf": "205f37505b69362663ce8845dab52a7ec82d96f778fe5b1a349faa9170d243d3",
+    "class_table.tex": "34757504cb0a4e0d38fca47ac7cfb8d623ce854176621e2bb105d223f74f3183",
+    "assessment_values.csv": "e734c65581a40c544dbb6e6a6a8f3b52e2ce0795b3dd7a8038f6d060c850648d",
+    "geometry.png": "a86433b0a9eaf95010ed2f5d969c29b3cb89c357d6a4721f9232168f96ae6180",
+    "sensitivity.pdf": "0cd8e468fcb3e4bec1b945f048527871e9b961387a4f5d488748a8f7db5a4ce2",
+    "fragmentation_values.csv": "288fc74f065fc8d95469f5b5919a21433b8d43c20b6307429c2b3cc41ef330ed",
+    "classes.pdf": "c5565c9c9832019994306799e336eaf47456770ba012c7ba6aae8a2db7a59ef7",
+    "overall_table.tex": "b7870e0e864760543f9a073c2d2775c6e1286aaecd022f5f2e459d4ee06950c6",
+    "supporting_values.json": "e4af71f2a0c1e2a1ed7c57b7e9fafdba07e9c06af14abe33e7cb5c6be57e7775",
+    "fragmentation.pdf": "a95b316fb74ca22794847a15b7647837aee39eb8c494aac578f66dcd6b8d5873",
+    "representation_values.csv": "a0896bbf8430f44014c3813315ea8a699e5e5a5b4772cc555f30788eb9135732",
+    "classes.png": "e7a4a0fac00b0acd98c9ecc1ea791df5323e797ed06e3273a949cf77145afeb3",
+    "structural_values.csv": "a9fe8550cfb4de9740122bb3117e93d9d60fbdf9fda9665df8e507b2c311b40b",
+    "transfer.pdf": "86d95ef248ee4d94bbcadaf88a420c216087a9718e6ce7d982c77f13262658a3",
+    "geometry.pdf": "c376a55cda826928596112305307c48ba5e30077ecf0e19fdd3d3937cf1db6e3"
+  }
+}

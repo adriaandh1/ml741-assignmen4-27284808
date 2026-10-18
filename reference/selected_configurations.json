@@ -1,0 +1,27 @@
+{
+  "knn": {
+    "preprocessor": "robust",
+    "metric": "manhattan",
+    "k": 7,
+    "weights": "distance",
+    "selection_macro_f1_mean": 0.4862165701534194,
+    "selection_macro_f1_std": 0.01675756545233226
+  },
+  "tree": {
+    "preprocessor": "tree_all",
+    "params": {
+      "ccp_alpha": 3e-07,
+      "class_weight": "balanced",
+      "criterion": "log_loss",
+      "max_depth": 16,
+      "max_features": null,
+      "min_samples_leaf": 2,
+      "min_samples_split": 5
+    },
+    "selection_macro_f1_mean": 0.5390334024143196,
+    "selection_macro_f1_std": 0.006843421047114051,
+    "randomized_candidates": 36,
+    "refinement_candidates": 30,
+    "total_candidates": 66
+  }
+}

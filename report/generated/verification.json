@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "frozen_report_inputs": 23,
+  "pages": 10,
+  "main_content_pages": 9,
+  "figures": 6,
+  "main_tables": 4,
+  "references": 12,
+  "fits": 0,
+  "prediction_computations": 0,
+  "pdf_sha256": "08671a2ad1805bc10398bc23d8fd11537c7f8bd9fc437821002f690b0621ed96",
+  "underfull_warnings": 4,
+  "overfull_boxes": 0,
+  "unresolved_citations_or_references": 0,
+  "numeric_report_csvs_checked": 9,
+  "bibliography_alphabetical": true,
+  "active_pdf_links_or_external_actions": 0,
+  "language_hard_checks": "passed",
+  "language_review_warnings": {
+    "listed_pronouns": [],
+    "spelled_multidigit_numbers": [],
+    "long_sentences_over_35_words": []
+  }
+}

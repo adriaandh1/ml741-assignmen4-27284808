@@ -1,0 +1,45 @@
+\section{Data and Preprocessing}
+
+The audit established source identity and feature semantics before distance-based preprocessing and representation experiments. Grouping identical retained inputs then separated repeated vectors across fitting and evaluation partitions.
+
+\subsection{Source and Data Quality}
+
+The supplied Assignment 2 extract contained 257,673 observations and 43 descriptive columns, including an identifier, with \texttt{attack\_cat} as the target. The features and classes corresponded to the University of New South Wales Network Based 2015 (UNSW-NB15) data introduced by Moustafa and Slay~\cite{moustafa2015}. The study retained the supplied extract and repository partitions instead of the original dataset training/testing files.
+
+Table~\ref{tab:data} gives class support across the source and study partitions, retaining the supplied class-identifier order. DoS denotes denial of service. Normal had 93,000 observations, compared with 174 Worms observations. Only seven Worms cases entered development validation, limiting interpretation of precision and recall for that class.
+
+\begin{table}[!ht]
+\caption{Class support in the frozen study partitions}
+\label{tab:data}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Class & Source & Training & Validation & Assessment \\
+\midrule
+\input{generated/class_table}
+\end{tabular}
+\end{table}
+
+The source contained no missing or non-finite numerical values and no constant features, although service values were missing in 141,321 rows. An explicit \texttt{<Missing>} category preserved the affected observations. The binary indicator \texttt{is\_ftp\_login} also contained 26 invalid positive codes of two or four, repaired deterministically to one without deleting rows.
+
+Removing the unique identifier and target exposed 103,989 repeated feature vectors, leaving 153,684 distinct raw groups, including 2,445 with conflicting targets. Conflicting labels limit deterministic separation of identical inputs, but repetition alone did not establish that an observation was invalid. Training, mapping and evaluation therefore retained empirical multiplicity.
+
+\subsection{Distance-Based Feature Treatment}
+
+The identifier \texttt{id} was excluded because row numbering does not measure traffic similarity, while \texttt{stcpb} and \texttt{dtcpb} were removed as arbitrary transmission-control-protocol sequence bases. Numerical proximity between sequence identifiers does not imply similar traffic. The audit also verified \texttt{tcprtt = synack + ackdat} to floating-point precision, so \texttt{tcprtt} was removed to avoid counting both timing components and their sum. Correlated measurements without exact dependence remained.
+
+The retained input comprised 34 numerical columns, two binary indicators and three nominal columns, with numerical parameters and categorical vocabularies fitted on training rows only. Binary indicators retained zero and one without variance scaling, while nominal values used one-hot encoding weighted by $1/\sqrt{2}$. A known-category mismatch therefore contributed a single unit of squared distance, matching a binary mismatch without variance-scaling rare encoded categories.
+
+Standard preprocessing centred numerical columns and divided by the training population standard deviation. Log-standard preprocessing first applied $\log(1+v)$ to non-negative numerical values $v$ in columns with training sample skew of at least two, followed by standardisation. The transformation rule used no labels and clipped no observations, while constant training columns used scale one. Numerical imputation and class resampling were unnecessary.
+
+Both development representations contained 150 coordinates, with log-standard preprocessing transforming 25 columns logarithmically. Unknown nominal levels received an all-zero block, preserving dimension and the training-only vocabulary. Validation contained 197 unknown protocol observations and a single unknown state observation. Under the encoding, unknown-to-known distances were smaller than known-to-known mismatches, and different unseen levels shared the same zero block.
+
+\subsection{Geometry Groups and Partitions}
+
+A geometry group contains identical retained inputs after deterministic repair but before fitted transformation, preventing identical vectors from crossing fitting and evaluation partitions. Removing the sequence bases merged a previously distinct pair and reduced the group count from 153,684 to 153,683. The pair crossed historical Assignment 2 assessment folds but remained inside the assessment block.
+
+The original blocks contained 51,535 development rows and 206,138 assessment rows, with stratified group splitting dividing development into 41,229 training and 10,306 validation rows. Assessment contained 122,945 geometry groups, kept intact within five new outer folds. Every partition and fold contained all 10 classes.
+
+Stratification used labels to maintain class coverage, without target-guided feature treatment or SOM updates. The comparison refitted frozen Assignment 2 configurations on the new shared folds, retaining historical scores as a separate protocol reference. Group isolation preserved every observation while evaluating previously unseen feature-vector groups.

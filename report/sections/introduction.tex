@@ -1,0 +1,11 @@
+\section{Introduction}
+
+Network-traffic classification distinguishes normal communication from categories of malicious activity. The supplied extract contained 10 unequally represented classes, so evaluation needed to consider rare-class recall and false predictions alongside overall accuracy.
+
+A self-organising map (SOM) represents observations through representative vectors, called codebook vectors, arranged on a two-dimensional grid or lattice. Kohonen introduced the topographic organisation underlying the SOM~\cite{kohonen1982}, allowing feature structure to be learned without target labels. However, similarity in traffic measurements does not necessarily imply membership of the same attack category, so representation quality and attack classification require separate evaluation.
+
+The study reused Assignment 2 data for comparison with the selected $k$-nearest-neighbour (kNN) and classification-tree models. SOM fitting first produced representative vectors from features alone, followed by unsupervised clustering and training-label mapping. The three stages preserved label-free representation while supporting class prediction.
+
+Four research questions guided the analysis, beginning with preprocessing, map capacity and initialisation effects on representation quality. The second concerned codebook clustering and correspondence with the supplied classes, while the third compared the frozen classifier with the Assignment 2 models on identical assessment folds. The fourth examined clustering granularity and class-frequency correction through post-hoc sensitivity analysis.
+
+Development experiments addressed the first three questions before confirmatory assessment, with the procedure fixed before assessment predictions or performance informed selection. The fourth question arose after inspection of the original assessment, although the later exploratory candidates were frozen before further assessment evaluation. The exploratory findings therefore remained separate from the confirmatory estimate. The report presents background and data treatment before experimental design, results and discussion.

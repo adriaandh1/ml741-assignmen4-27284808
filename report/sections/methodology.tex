@@ -1,0 +1,47 @@
+\section{Experimental Methodology}
+
+The design separated unsupervised representation experiments from classifier selection and locked confirmatory assessment, with later sensitivity studies remaining post-hoc.
+
+\subsection{Implementation and Training}
+
+The SOM update and diagnostics were implemented directly with NumPy/SciPy, while scikit-learn supplied preprocessing and $K$-means clustering. Initial codebooks sampled training rows without replacement, allowing repeated vectors, while five fixed seeds measured initialisation variation. Validation supplied diagnostics without updating codebook vectors.
+
+For map side length $\ell$, the 70-epoch schedule reduced radius exponentially from $\ell/2$ to 0.75 during the first 40 epochs, followed by 30 epochs at 0.75. The original schedule had reached minimum radius only at the final update, while error was still decreasing. Fixed-radius refinement was therefore locked before downstream label analysis and applied equally to every condition, without early stopping or validation-dependent updates.
+
+\subsection{Representation and Downstream Development}
+
+The representation experiment compared standard and log-standard preprocessing on $8\times8$, $16\times16$, $24\times24$ and $32\times32$ maps, producing 40 runs with five seeds per condition. Training and validation diagnostics were recorded separately, and no class-performance information informed representation decisions. The shortlist retained log-standard maps of sides eight, 16 and 32 to preserve different capacity trade-offs, while $24\times24$ maps remained geometric evidence only.
+
+The original downstream grid combined the three shortlisted capacities with $K\in\{10,15,20,30,40\}$, comparing uniform and training-hit weights under majority mapping or full prevalence correction. Each codebook used five fixed clustering seeds, with $k$-means++ initialisation and 10 initialisations per fit. The Lloyd algorithm allowed at most 500 iterations with tolerance $10^{-4}$, giving 750 clustering fits and 1,500 validation evaluations. Training labels determined the mappings, while validation labels evaluated the resulting classifiers.
+
+Class-score ties selected the lowest class identifier, and unsupported clusters copied the class of the nearest supported centre. Euclidean centre-distance ties selected the lowest cluster identifier, without chaining through unsupported clusters. An unseen observation passed through training-fitted transformation, BMU assignment, codebook-cluster lookup and mapped-class prediction, without neighbouring-unit voting or supervised correction.
+
+After the grid, selection maximised macro $F_1$ over all 10 classes. Ties preferred higher balanced accuracy, followed by lower SOM variability and a fixed simplicity ordering. Validation therefore provided selection evidence rather than an unbiased estimate of generalisation.
+
+\subsection{Confirmatory Assessment and Baselines}
+
+The frozen procedure combined log-standard preprocessing and a $32\times32$ SOM with $K=40$, training-hit weighting and $\alpha=1$. Assessment used five geometry-safe outer folds from the reserved block, with preprocessing and five SOMs fitted on the other four folds. Outer-training observations also supplied clustering weights and class mappings, while development rows were excluded and held-out observations fitted no pipeline stage.
+
+An out-of-fold (OOF) prediction comes from a model fitted without the corresponding held-out fold. Matching SOM and clustering seeds across folds produced 25 OOF vectors, each covering all 206,138 assessment observations exactly once. Metrics used the pooled predictions because averaging fold macro $F_1$ would give a different nonlinear summary.
+
+Cover and Hart investigated nearest-neighbour classification~\cite{cover1967}. The frozen kNN used seven neighbours, Manhattan distance and inverse-distance voting, with votes restricted to zero-distance neighbours whenever present. Numerical features used training median/interquartile-range scaling, and categorical features used one-hot encoding. The classification tree, following the recursive approach developed by Breiman \emph{et al.}~\cite{breiman1984}, used balanced class weights, log-loss splits and maximum depth 16. Minimum split and leaf sizes were five and two, respectively, with pruning parameter $3\times10^{-7}$. Both Assignment 2 configurations were refitted on the same outer folds using method-specific training-only preprocessing.
+
+\subsection{Post-Hoc Exploratory Sensitivity}
+
+Sensitivity analysis was designed after the original assessment had been inspected, prompted by rising development macro $F_1$ at the cluster-count boundary and severe rare-class false positives under full correction. The later studies examined granularity and correction strength, but the assessment-informed design prevented independent confirmation.
+
+Development exploration reused five frozen log-standard $32\times32$ codebooks and BMUs, beginning with $K\in\{40,50,60,80,100,150\}$ and $\alpha\in\{0,0.25,0.5,0.75,1\}$. A final predeclared extension added $K\in\{200,250,300,400\}$, importing earlier results without refitting. The combined grid comprised 50 conditions, 250 clustering fits and 1,250 evaluations, with the original $K=40$, $\alpha=1$ anchor reproduced exactly.
+
+Exploratory ranking used macro $F_1$, followed by balanced accuracy and lower SOM variability, with remaining ties preferring lower $K$ and $\alpha$. The first extension exceeded the predeclared 0.03 development-improvement threshold for recommending exploratory assessment, while the final extension retained a hard boundary of 400 clusters. Assessment candidates were frozen at $K=150$ and $K=400$, both using $\alpha=0.5$.
+
+Exploratory assessment reused all 25 fold-specific SOMs and saved BMUs, refitting only clustering and training-label mapping through 250 clustering fits. Identical seed pairs produced complete OOF vectors, while confirmatory and baseline predictions were imported unchanged. No further model development followed exploratory assessment.
+
+\subsection{Aggregation, Diagnostics and Uncertainty}
+
+Aggregation averaged five clustering results within each SOM seed, then calculated the mean and sample standard deviation across the five SOM-level means. Mean within-SOM clustering standard deviation described remaining optimisation variation, without treating the 25 seed combinations as independent datasets. Structural diagnostics used labels only after unsupervised fitting and did not influence selection.
+
+Fragmentation counts defined tiny clusters as containing fewer than 10 training observations and singleton clusters as containing exactly a single codebook unit. No cluster was excluded, and the counts remained descriptive without forming another selection score.
+
+Efron and Tibshirani described bootstrap estimation through repeated resampling~\cite{efron1993}. The paired bootstrap resampled complete assessment geometry groups with replacement over 2,000 draws, retaining every observation within each sampled group. Identical group multiplicities applied to all methods, with macro $F_1$ differences averaged across clustering seeds within each SOM seed and then across SOM seeds. Percentile 95\% intervals described resampling sensitivity conditional on fixed models and observed groups, without $p$-values or claims of independent confirmation.
+
+Scientific runs used role-specific seeds, checksum-verified locks and sequential execution with four numerical-library threads. The Linux implementation and replayable records were available in the repository.\footnote{\path{github.com/adriaandh1/ml741-assignmen4-27284808}}

@@ -1,0 +1,8 @@
+comparison,observed,lower,upper,draws,interval,status
+k150_minus_k40,0.10976667493609296,0.1059469390713606,0.11339018054795671,2000,percentile95; paired observed geometry groups,post-hoc descriptive; not independent confirmation
+k400_minus_k40,0.13472262125060477,0.13083847399071125,0.13840262256699642,2000,percentile95; paired observed geometry groups,post-hoc descriptive; not independent confirmation
+k400_minus_k150,0.024955946314511823,0.02326560273888274,0.026645116532168077,2000,percentile95; paired observed geometry groups,post-hoc descriptive; not independent confirmation
+k150_minus_knn,-0.08981261386283776,-0.10106113277212983,-0.07769250209827396,2000,percentile95; paired observed geometry groups,post-hoc descriptive; not independent confirmation
+k150_minus_tree,-0.149953218173954,-0.16000361454523726,-0.13975158300383905,2000,percentile95; paired observed geometry groups,post-hoc descriptive; not independent confirmation
+k400_minus_knn,-0.06485666754832593,-0.07605906690463074,-0.05266997395285011,2000,percentile95; paired observed geometry groups,post-hoc descriptive; not independent confirmation
+k400_minus_tree,-0.12499727185944216,-0.1349675123213083,-0.1147258398088176,2000,percentile95; paired observed geometry groups,post-hoc descriptive; not independent confirmation

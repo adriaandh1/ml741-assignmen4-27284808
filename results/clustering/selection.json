@@ -1,0 +1,77 @@
+{
+  "protocol_version": 1,
+  "condition_id": "log_standard-32x32-k40-hit_weighted-class_balanced",
+  "representation": "log_standard",
+  "side": 32,
+  "k": 40,
+  "weighting": "hit_weighted",
+  "mapping": "class_balanced",
+  "som_schedule": {
+    "annealing_epochs": 40,
+    "refinement_epochs": 30,
+    "initial_radius": "side/2",
+    "final_radius": 0.75,
+    "decay": "exponential over epochs 1-40",
+    "fixed_radius": 0.75,
+    "completed_epochs": 70,
+    "early_stopping": false
+  },
+  "som_geometry": "square rectangular, non-toroidal, Gaussian, Euclidean, four-neighbour TE",
+  "som_initialisation": "training observations without replacement",
+  "som_chunk_size": 2048,
+  "blas_threads": 4,
+  "som_seeds": [
+    47421,
+    47422,
+    47423,
+    47424,
+    47425
+  ],
+  "clustering_seeds": [
+    47431,
+    47432,
+    47433,
+    47434,
+    47435
+  ],
+  "kmeans": {
+    "init": "k-means++",
+    "n_init": 10,
+    "max_iter": 500,
+    "tol": 0.0001,
+    "algorithm": "lloyd"
+  },
+  "empty_cluster_fallback": "nearest supported cluster centre; tie lowest cluster ID; no chaining",
+  "class_tie": "lowest class ID; balanced ratios compared by exact cross-products",
+  "classes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "zero_division": 0,
+  "metric_rules": "all-ten-class macro F1 primary; balanced accuracy, accuracy, weighted F1; nested KMeans means then SOM mean/sample SD",
+  "selection_rule": "highest macro F1 (ties within 1e-12), balanced accuracy, lower SOM SD, smaller map, fewer K, uniform, majority, lexical ID",
+  "validation_macro_f1_mean": 0.31643024849802565,
+  "validation_macro_f1_som_sd": 0.004948338429629883,
+  "validation_macro_f1_kmeans_sd_mean": 0.008386048820739525,
+  "validation_balanced_accuracy_mean": 0.45040024068089124,
+  "experiment_lock_sha256": "4d30c08846e38b58aa9cccf9d7fe55c90df0f646c7c104d262f282a48ed196a6",
+  "protocol_sha256": "25c3dbec8e3113d82bfbdb522bb8c453d0c57e5b559c192a97139efc61da8817",
+  "assessment_evaluated": false,
+  "assessment_labels_read": false,
+  "assignment2_scores_used": false,
+  "further_validation_tuning_allowed": false,
+  "display_only": {
+    "som_seed": 47425,
+    "clustering_seed": 47432,
+    "fit_id": "c3-log_standard-32x32-s47425-k40-hit_weighted-c47432",
+    "rule": "median SOM-level macro F1, then median KMeans macro F1; ties lowest seed"
+  }
+}

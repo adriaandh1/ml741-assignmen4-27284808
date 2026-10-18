@@ -1,0 +1,81 @@
+\section{Background}
+
+Representation quality describes feature organisation, whereas classification measures assess target prediction. The background explains the SOM update and diagnostics before introducing clustering, class mapping and evaluation under imbalance.
+
+\subsection{Self-Organising Representation}
+
+Let $\mathbf{x}$ denote a transformed observation and $m$ the number of map units, indexed by $j$. Each unit stores a representative feature vector $\mathbf{w}_j$, called a codebook vector, at a fixed position $\mathbf{r}_j$ on the lattice. The codebook vector has the same features as an observation, while the lattice coordinate locates the unit on the map. The nearest codebook vector identifies the best matching unit (BMU), with the BMU-index function $b$ defined by
+\begin{equation}
+ b(\mathbf{x})=\arg\min_{j\in\{0,\ldots,m-1\}}
+       \|\mathbf{x}-\mathbf{w}_j\|_2.
+ \label{eq:bmu}
+\end{equation}
+Feature-space distance associates each observation with a lattice location, with exact ties selecting the lowest unit index.
+
+Neighbourhood coupling links the codebook updates, following the organisation of neighbouring lattice units described by Kohonen~\cite{kohonen2013}. The implementation used a rectangular lattice without wraparound, with epoch index $e$, source-unit index $k$ and positive neighbourhood radius $\sigma_e$. The Gaussian influence $h_{jk}^{(e)}$ from source unit $k$ to destination unit $j$ was
+\begin{equation}
+ h_{jk}^{(e)}=\exp\left(-\frac{\|\mathbf{r}_j-\mathbf{r}_k\|_2^2}
+                                      {2\sigma_e^2}\right).
+ \label{eq:gaussian}
+\end{equation}
+A broad radius couples distant units, whereas a smaller radius concentrates influence locally. Lattice distance therefore controls neighbourhood updating, while feature distance determines the BMU.
+
+Each batch update first assigned every training observation to a BMU. For source unit $k$ in epoch $e$, let $n_k^{(e)}$ denote the assigned count and $\mathbf{a}_k^{(e)}$ the sum of assigned vectors. The destination codebook vector was then updated as
+\begin{equation}
+ \mathbf{w}_j^{\mathrm{new}}=
+ \frac{\sum_{k=0}^{m-1}h_{jk}^{(e)}\mathbf{a}_k^{(e)}}
+      {\sum_{k=0}^{m-1}h_{jk}^{(e)}n_k^{(e)}}.
+ \label{eq:batch}
+\end{equation}
+Gaussian weights combined neighbouring BMU aggregates across the complete training partition, without using target labels or an online learning rate. A zero denominator left the previous codebook vector unchanged.
+
+\subsection{Representation Quality}
+
+Quantisation error (QE) averages Euclidean distances between observations and the corresponding BMUs. For an evaluated partition $X$ containing $n_X$ observations, the QE function $q$ is
+\begin{equation}
+ q(X)=\frac{1}{n_X}\sum_{\mathbf{x}\in X}
+          \|\mathbf{x}-\mathbf{w}_{b(\mathbf{x})}\|_2.
+ \label{eq:qe}
+\end{equation}
+Lower QE indicates closer representative vectors, although absolute errors from different feature transformations have different distance units.
+
+Contextual quantisation error (CQE) expresses map error relative to a single training-centroid representative. Let $T$ denote the training partition and $\boldsymbol{\mu}_T$ the corresponding feature centroid. The CQE function $d$ evaluates partition $X$ as
+\begin{equation}
+ d(X)=\frac{q(X)}
+ {n_X^{-1}\sum_{\mathbf{x}\in X}\|\mathbf{x}-\boldsymbol{\mu}_T\|_2}.
+ \label{eq:cqe}
+\end{equation}
+For validation, the denominator averaged distances from validation observations to the same training centroid, preserving a training-derived reference. CQE describes relative feature-space distance without measuring classification performance.
+
+Kiviluoto evaluated topology through the first two matching units~\cite{kiviluoto1996}. Following that approach, topographic error (TE) measures the fraction of observations whose first two distinct BMUs do not share a lattice edge. Stable unit ordering resolves distance ties for both matches, while adjacency requires an edge rather than diagonal contact. Corner units have two edge neighbours, boundary units three and interior units four, so lower TE indicates better agreement between feature proximity and local lattice adjacency.
+
+Occupancy is the fraction of units receiving at least a single BMU assignment, with unassigned units termed dead units. Neighbourhood updates still affect dead codebook vectors. Training occupancy describes codebook use rather than class recognition and therefore needs to be interpreted alongside QE and TE.
+
+\subsection{Codebook Clustering and Class Mapping}
+
+Codebook clustering groups the representative vectors stored by the SOM, following the representation-and-clustering approach investigated by Vesanto and Alhoniemi~\cite{vesanto2000}. For $K$ codebook clusters, the $K$-means algorithm alternates assignment to the nearest centre with updates of the centres. Each observation inherits the BMU cluster, and multiple clusters are allowed to receive the same target class.
+
+Map units represented unequal numbers of training observations, so training-hit weighting gave heavily occupied vectors greater influence on cluster-centre placement. Dead units received zero fitting weight but still obtained cluster assignments. Centre seeding used $k$-means++ initialisation, proposed by Arthur and Vassilvitskii~\cite{arthur2007}, while clustering consumed only codebook vectors and training hits.
+
+Training labels entered only after clustering to determine class mappings from local counts. For cluster $z$ and class $c$, let $n_{zc}$ denote the local training count and $n_c$ the total training count of class $c$. With prevalence-correction strength $\alpha$, the score function $s_{zc}$ is
+\begin{equation}
+ s_{zc}(\alpha)=\frac{n_{zc}}{n_c^{\alpha}}.
+ \label{eq:mapping}
+\end{equation}
+The class with the highest score becomes the cluster label, giving ordinary majority mapping at $\alpha=0$ and full prevalence correction at $\alpha=1$. Full correction compares fractions of each training class, whereas intermediate values reduce the relative advantage given to rare classes. Frequency correction does not, however, guarantee high predictive precision.
+
+\subsection{Evaluation under Class Imbalance}
+
+He and Garcia examined the limitations of aggregate performance under class imbalance~\cite{he2009}, motivating evaluation of both precision and recall. For class $c$, let $t_c$, $f_c$ and $u_c$ denote true-positive, false-positive and false-negative counts. Precision $p_c$ measures the correctness of predictions for the class, while recall $r_c$ measures the fraction of true class observations recovered:
+\begin{equation}
+ p_c=\frac{t_c}{t_c+f_c},\qquad
+ r_c=\frac{t_c}{t_c+u_c}.
+\end{equation}
+The class score $F_{1,c}$ combines precision and recall, while macro $F_1$, denoted $F_{1,\mathrm{macro}}$, gives equal weight to every class. For $g$ classes, fixed at 10 in the study, the scores are
+\begin{equation}
+ F_{1,c}=\frac{2p_cr_c}{p_c+r_c},\qquad
+ F_{1,\mathrm{macro}}=\frac{1}{g}\sum_{c=0}^{g-1}F_{1,c}.
+\end{equation}
+Undefined precision or $F_1$ is set to zero, keeping classes with no predictions in the macro average. Balanced accuracy averages class recall, ordinary accuracy weights observations equally, and weighted $F_1$ averages class scores according to true support. Sokolova and Lapalme distinguished the information captured by classification measures~\cite{sokolova2009}. Macro $F_1$ was primary because rare-class precision mattered alongside recall.
+
+Structural diagnostics complement classification measures without determining classifier selection. Rousseeuw defined silhouette through within-cluster cohesion and nearest-cluster separation~\cite{rousseeuw1987}, with the reported implementation averaging Euclidean scores across all codebook units without hit weighting. Purity measures the observation-weighted fraction belonging to the most frequent class within each cluster, while normalised mutual information (NMI) compares cluster and class information using arithmetic-mean entropy normalisation. The adjusted Rand index (ARI) measures pairwise membership agreement after chance adjustment. Because subdivision increases or preserves purity, a higher purity alone does not establish better class prediction.
